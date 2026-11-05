@@ -10,10 +10,10 @@ install_flatpaks() {
   check_jq
 
   echo "📜 List of Flatpak apps:"
-  jq -r '.flatpaks[] | "* \(.name) (\(.id))"' "$APP_SOURCES"
+  jq -r '.flatpaks[] | "* \(.name) (\(.id))"' "$PROJECT_ROOT/data/sources.json"
   echo -e "$divider"
 
-  jq -c '.flatpaks[]' $APP_SOURCES | while read -r app; do
+  jq -c '.flatpaks[]' "$PROJECT_ROOT/data/sources.json" | while read -r app; do
     remote=$(echo "$app" | jq -r '.remote')
     id=$(echo "$app" | jq -r '.id')
 

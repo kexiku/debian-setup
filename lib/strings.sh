@@ -5,7 +5,7 @@ divider="\n•☽──────✧⋆⋅♡⋅⋆✧──────☾•
 cancellation="\033[1m🪦 Installation cancelled.\033[0m"
 options=(
   "Install packages"
-  "Install Flatpaks"
+  "Install flatpaks"
   # "Enable RPM Fusion"
   # "Install multimedia codecs"
   "Quit"
