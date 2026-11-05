@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 resolve_symlinks() {
   SOURCE="${BASH_SOURCE[0]}"
@@ -17,10 +17,6 @@ resolve_symlinks() {
 }
 
 resolve_symlinks
-
-source $PROJECT_ROOT/lib/os_checker.sh
-
-detect_distro
 
 source $PROJECT_ROOT/lib/menu.sh
 source $PROJECT_ROOT/lib/packages.sh

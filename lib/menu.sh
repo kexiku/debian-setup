@@ -1,6 +1,12 @@
 #!/bin/bash
 
-source $PROJECT_ROOT/lib/strings.sh
+options=(
+  "Install packages"
+  "Install flatpaks"
+  # "Enable RPM Fusion"
+  # "Install multimedia codecs"
+  "Quit"
+)
 
 call_menu() {
   echo "🪬 Choose an option:"

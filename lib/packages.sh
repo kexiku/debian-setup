@@ -1,8 +1,9 @@
 #!/bin/bash
 
 source $PROJECT_ROOT/lib/menu.sh
-source $PROJECT_ROOT/lib/strings.sh
 source $PROJECT_ROOT/lib/validation.sh
+
+divider="\n•☽──────✧⋆⋅♡⋅⋆✧──────☾•\n"
 
 install_packages() {
   check_sources_file

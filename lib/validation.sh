@@ -1,11 +1,10 @@
 #!/bin/bash
 
-source $PROJECT_ROOT/lib/strings.sh
+divider="\n•☽──────✧⋆⋅♡⋅⋆✧──────☾•\n"
 
 check_sources_file() {
   if [[ ! -f "$PROJECT_ROOT/data/sources.json" ]]; then
     echo >&2 "🌹 '$PROJECT_ROOT/data/sources.json': file not found."
-    echo -e "$cancellation"
     exit 1
   fi
 }
@@ -19,7 +18,6 @@ check_jq() {
       echo -e "$divider"
       sudo apt install jq
     else
-      echo -e "$cancellation"
       exit 1
     fi
   }
@@ -34,7 +32,6 @@ check_flatpak() {
       echo -e "$divider"
       sudo apt install flatpak
     else
-      echo -e "$cancellation"
       exit 1
     fi
   }
