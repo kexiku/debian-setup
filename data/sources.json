@@ -4,22 +4,18 @@
 		"git",
     "gnome-shell-extension-manager",
 		"gparted",
-		"micro",
 		"stow",
-		"tldr",
-		"vlc",
-		"vlc-plugins-extra"
+		"tldr"
 	],
 	"flatpaks": [
-		{ "remote": "fedora", "name": "Flatseal", "id": "com.github.tchx84.Flatseal" },
-		{ "remote": "fedora", "name": "Okular", "id": "org.kde.okular" },
+    { "remote": "flathub", "name": "Add Water", "id": "dev.qwery.AddWater" },
+    { "remote": "flathub", "name": "Flatseal", "id": "com.github.tchx84.Flatseal" },
+    { "remote": "flathub", "name": "Obsidian", "id": "md.obsidian.Obsidian" },
 		{ "remote": "flathub", "name": "Telegram", "id": "org.telegram.desktop" }
 	],
 	"extensions": [
 		"blur-my-shell@aunetx",
-		"clipboard-indicator@tudmotu.com",
 		"emoji-copy@felipeftn",
-		"notification-timeout@chlumskyvaclav.gmail.com",
 		"smart-auto-move@khimaros.com"
 	]
 }

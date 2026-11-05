@@ -8,13 +8,13 @@ install_packages() {
   check_sources_file
   check_jq
 
-  packages=($(jq -r '.packages[]' $APP_SOURCES))
+  packages=($(jq -r '.packages[]' "$PROJECT_ROOT/data/sources.json"))
 
   echo "📜 List of packages:"
   printf ' * %s\n' "${packages[@]}"
   echo -e "$divider"
 
-  sudo $PKG_INSTALL "${packages[@]}"
+  sudo apt install "${packages[@]}"
 
   repeat_question
 }
