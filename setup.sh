@@ -1,25 +1,39 @@
 #!/bin/bash
 set -euo pipefail
 
-resolve_symlinks() {
-  SOURCE="${BASH_SOURCE[0]}"
+# Find script directory
+ROOT_DIR=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
+export ROOT_DIR
 
-  while [ -L "$SOURCE" ]; do
-    DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
-    SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+# Check manifest file
+MANIFEST="${ROOT_DIR}/data/manifest.json"
+
+if [[ ! -f $MANIFEST ]]; then
+  echo "Cannot locate $MANIFEST: file is missing" >&2
+  exit 1
+fi
+
+export MANIFEST
+
+options=(
+  "Install packages"
+  "Install flatpaks"
+  "Quit"
+)
+
+call_menu() {
+  PS3="Choose an option (1-3): "
+
+  select opt in "${options[@]}"; do
+    case "$REPLY" in
+      1) bash "${ROOT_DIR}/src/packages.sh"; break ;;
+      2) bash "${ROOT_DIR}/src/flatpaks.sh"; break ;;
+      3|q) exit 0 ;;
+      *) echo "Invalid option, enter a correct value (1-3)." ;;
+    esac
   done
-
-  SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
-  PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-
-  export PROJECT_ROOT
 }
 
-resolve_symlinks
-
-source $PROJECT_ROOT/lib/menu.sh
-source $PROJECT_ROOT/lib/packages.sh
-source $PROJECT_ROOT/lib/flatpaks.sh
+echo -e "Would you like to do something else?\n"
 
 call_menu
