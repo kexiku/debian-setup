@@ -5,17 +5,22 @@ set -euo pipefail
 ROOT_DIR=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 export ROOT_DIR
 
-# Check manifest file
+# Load lib files
+source "${ROOT_DIR}/lib/config.sh"
+source "${ROOT_DIR}/lib/helpers.sh"
+
+# Define manifest file
 MANIFEST="${ROOT_DIR}/data/manifest.json"
 
 if [[ ! -f $MANIFEST ]]; then
-  echo "Cannot locate $MANIFEST: file is missing." >&2
+  print_error "Cannot locate $MANIFEST: file is missing." >&2
   exit 1
 fi
 
 export MANIFEST
 
-printf '=== \033[0;31m%s\033[0m ===\n' "Debian Setup"
+# Menu
+printf '=== %s%s%s ===\n' "$BOLD_RED" "Debian Setup" "$RESET"
 
 options=(
   "Install apt packages"
@@ -36,7 +41,7 @@ call_menu() {
     esac
   done
 
-  echo -e "\nWould you like to do something else?"
+  echo "Would you like to do something else?"
   call_menu
 }
 
