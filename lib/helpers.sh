@@ -20,8 +20,9 @@ check_package() {
 
   printf 'This script requires %s%s%s package to be installed.\n' "$GREEN" "$pkg" "$RESET"
 
-  read -rp "Would you like to install it now? [Y/n] " ans
-  if [[ -z "$ans" || "$ans" =~ ^[Yy]$ ]]; then
+  read -rp 'Would you like to install it now? [Y/n] ' ans
+  if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
+    sudo apt update
     sudo apt install -y "$pkg"
   else
     print_error "Missing required ${pkg} package." >&2
