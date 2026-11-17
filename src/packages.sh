@@ -12,8 +12,8 @@ check_package jq
 packages=($(jq -r '.packages[]' "$MANIFEST"))
 
 if [[ ${#packages[@]} == 0 ]]; then
-  print_warning "No packages listed in ${MANIFEST}, exiting without changes."
-  exit 0
+  print_error "No apt packages listed in ${MANIFEST}" >&2
+  exit 1
 fi
 
 echo -e "\nThe script is about to install the following apt packages on your system:"
@@ -27,6 +27,6 @@ if [[ -z "$ans" || "$ans" =~ ^[Yy]$ ]]; then
   sudo apt update
   sudo apt install -y "${packages[@]}"
 else
-  print_error "Installation aborted."
+  print_error "Installation aborted." >&2
   exit 1
 fi
