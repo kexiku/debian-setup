@@ -1,14 +1,36 @@
 {
 	"packages": [
 		"dconf-editor",
+		"fonts-noto",
+		"freefilesync",
+		"gh",
 		"git",
+		"git-filter-repo",
     "gnome-shell-extension-manager",
+		"gnome-tweaks",
 		"gparted",
+		"gpg",
+		"imagemagick",
+		"mpd",
+		"mpv",
+		"mtools",
+		"pipx",
+		"python3-pip",
+		"python3-venv",
+		"rsync",
+		"seahorse",
+		"sqlite3",
 		"stow",
-		"tldr"
+		"tldr",
+		"ufw",
+		"unifont",
+		"vim",
+		"wget",
+		"yt-dlp",
+		"zsh",
+		"zsh-syntax-highlighting"
 	],
 	"flatpaks": [
-    { "remote": "flathub", "name": "Add Water", "id": "dev.qwery.AddWater" },
     { "remote": "flathub", "name": "Flatseal", "id": "com.github.tchx84.Flatseal" },
     { "remote": "flathub", "name": "Obsidian", "id": "md.obsidian.Obsidian" },
 		{ "remote": "flathub", "name": "Telegram", "id": "org.telegram.desktop" }
