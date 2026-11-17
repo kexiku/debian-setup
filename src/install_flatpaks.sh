@@ -42,6 +42,9 @@ print_flatpaks() {
 install_flatpaks() {
   local remote name id
 
+  # Add Flathub repo
+  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
   while IFS=$'\t' read -r remote name id; do
     flatpak install --system -y "$remote" "$id"
   done < <(list_flatpaks)
@@ -52,8 +55,19 @@ print_flatpaks
 
 read -rp $'\nProceed to the installation? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
-  install_flatpaks
+  # install_flatpaks
+  echo "yay!"
 else
   print_error "Installation aborted." >&2
   exit 1
 fi
+
+echo "A session restart is required for installed apps to be appeared on your desktop."
+read -rp 'Log out now? [Y/n] ' ans
+if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
+  request_logout
+else
+  echo "Skipping session restart."
+fi
+
+echo "Done!"

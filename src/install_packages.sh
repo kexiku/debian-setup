@@ -34,3 +34,5 @@ else
   print_error "Installation aborted." >&2
   exit 1
 fi
+
+echo "Done!"
