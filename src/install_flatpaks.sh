@@ -13,7 +13,7 @@ check_package jq
 no_flatpaks=$(jq -r '.flatpaks | length == 0' "$MANIFEST")
 
 if $no_flatpaks; then
-  print_error "No flatpak apps listed in ${MANIFEST}" >&2
+  print_error "No Flatpak apps listed in ${MANIFEST}" >&2
   exit 1
 fi
 
@@ -47,7 +47,7 @@ install_flatpaks() {
   done < <(list_flatpaks)
 }
 
-echo -e "\nThe script is about to install the following flatpak apps:"
+echo -e "\nThe script is about to install the following Flatpak apps:"
 print_flatpaks
 
 read -rp $'\nProceed to the installation? [Y/n] ' ans

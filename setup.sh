@@ -24,7 +24,7 @@ printf '=== %s%s%s ===\n' "$BOLD_RED" "Debian Setup" "$RESET"
 
 options=(
   "Install apt packages"
-  "Install flatpaks"
+  "Install Flatpak apps"
   "Quit"
 )
 
@@ -34,8 +34,8 @@ call_menu() {
 
   select opt in "${options[@]}"; do
     case "$REPLY" in
-      1) bash "${ROOT_DIR}/src/packages.sh"; break ;;
-      2) bash "${ROOT_DIR}/src/flatpaks.sh"; break ;;
+      1) bash "${ROOT_DIR}/src/install_packages.sh"; break ;;
+      2) bash "${ROOT_DIR}/src/install_flatpaks.sh"; break ;;
       3|q) exit 0 ;;
       *) echo "Invalid option, enter the correct value (1-3)." ;;
     esac
