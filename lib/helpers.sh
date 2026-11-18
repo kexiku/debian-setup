@@ -37,6 +37,23 @@ check_package() {
   fi
 }
 
+check_python_app() {
+  local app="$1"
+
+  # Return if Python application is found
+  pipx list --short | grep -q "^$app "; && return 0
+
+  printf 'This script requires %s%s%s Python application to be installed.\n' "$YELLOW" "$app" "$RESET"
+
+  read -rp 'Would you like to install it now? [Y/n] ' ans
+  if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
+    pipx install --system-site-packages "$app"
+  else
+    print_error "Missing required ${app} application." >&2
+    return 1
+  fi
+}
+
 request_logout() {
   case "${XDG_CURRENT_DESKTOP,,}" in
     *gnome*)    gnome-session-quit --logout ;;

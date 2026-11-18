@@ -27,6 +27,7 @@ printf '=== %s%s%s ===\n' "$BOLD_RED" "Debian Setup" "$RESET"
 options=(
   "Install apt packages"
   "Install Flatpak apps"
+  "Install Gnome extensions"
   "Create additional directories"
   "Quit (q)"
 )
@@ -39,8 +40,9 @@ call_menu() {
     case "$REPLY" in
       1) bash "${ROOT_DIR}/src/install_packages.sh"; break ;;
       2) bash "${ROOT_DIR}/src/install_flatpaks.sh"; break ;;
-      3) bash "${ROOT_DIR}/src/make_directories.sh"; break ;;
-      4|q) exit 0 ;;
+      3) bash "${ROOT_DIR}/src/install_extensions.sh"; break ;;
+      4) bash "${ROOT_DIR}/src/make_directories.sh"; break ;;
+      5|q) exit 0 ;;
       *) echo "Invalid option, enter the correct value (1-3)." ;;
     esac
   done
