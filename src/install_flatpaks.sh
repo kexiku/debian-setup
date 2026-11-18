@@ -55,8 +55,7 @@ print_flatpaks
 
 read -rp $'\nProceed to the installation? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
-  # install_flatpaks
-  echo "yay!"
+  install_flatpaks
 else
   print_error "Installation aborted." >&2
   exit 1

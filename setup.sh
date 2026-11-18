@@ -9,6 +9,12 @@ export ROOT_DIR
 source "${ROOT_DIR}/lib/config.sh"
 source "${ROOT_DIR}/lib/helpers.sh"
 
+# Check if user is root
+if [[ $EUID -eq 0 ]]; then
+  print_error "The script should not be run as root." >&2
+  exit 1
+fi
+
 # Define manifest file
 MANIFEST="${ROOT_DIR}/data/manifest.json"
 
@@ -25,7 +31,8 @@ printf '=== %s%s%s ===\n' "$BOLD_RED" "Debian Setup" "$RESET"
 options=(
   "Install apt packages"
   "Install Flatpak apps"
-  "Quit"
+  "Create additional directories"
+  "Quit (q)"
 )
 
 call_menu() {
@@ -36,7 +43,8 @@ call_menu() {
     case "$REPLY" in
       1) bash "${ROOT_DIR}/src/install_packages.sh"; break ;;
       2) bash "${ROOT_DIR}/src/install_flatpaks.sh"; break ;;
-      3|q) exit 0 ;;
+      3) bash "${ROOT_DIR}/src/make_directories.sh"; break ;;
+      4|q) exit 0 ;;
       *) echo "Invalid option, enter the correct value (1-3)." ;;
     esac
   done
