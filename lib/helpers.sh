@@ -12,6 +12,13 @@ print_warning() {
   printf '%s%s%s\n' "$BOLD_YELLOW" "$1" "$RESET"
 }
 
+check_root() {
+  if [[ $EUID -eq 0 ]]; then
+    print_error "The script should not be run as root." >&2
+    return 1
+  fi
+}
+
 check_package() {
   local pkg="$1"
 

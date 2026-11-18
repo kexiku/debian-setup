@@ -1,11 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
+# Define required variables
+ROOT_DIR="${ROOT_DIR:-$(dirname "$(realpath "${BASH_SOURCE[0]}")/..")}"
+MANIFEST="${MANIFEST:-${ROOT_DIR}/data/manifest.json}"
+
 # Load lib files
 source "${ROOT_DIR}/lib/config.sh"
 source "${ROOT_DIR}/lib/helpers.sh"
 
-# Check dependencies
+check_root
 check_package jq
 
 # Get packages array
@@ -31,8 +35,8 @@ if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   sudo apt update
   sudo apt install -y "${packages[@]}"
 else
-  print_error "Installation aborted." >&2
-  exit 1
+  echo "Cancelled."
+  exit 0
 fi
 
 echo "Done!"

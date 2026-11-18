@@ -9,11 +9,7 @@ export ROOT_DIR
 source "${ROOT_DIR}/lib/config.sh"
 source "${ROOT_DIR}/lib/helpers.sh"
 
-# Check if user is root
-if [[ $EUID -eq 0 ]]; then
-  print_error "The script should not be run as root." >&2
-  exit 1
-fi
+check_root
 
 # Define manifest file
 MANIFEST="${ROOT_DIR}/data/manifest.json"

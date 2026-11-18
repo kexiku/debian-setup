@@ -1,9 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
+# Define script directory
+ROOT_DIR="${ROOT_DIR:-$(dirname "$(realpath "${BASH_SOURCE[0]}")/..")}"
+
 # Load lib files
 source "${ROOT_DIR}/lib/config.sh"
 source "${ROOT_DIR}/lib/helpers.sh"
+
+check_root
 
 # Define base directories
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
@@ -40,15 +45,15 @@ make_directories() {
   done
 }
 
-echo -e "\nThe script will create the following directories in your home directory:"
+echo -e "\nThe script will create the following directories:"
 print_directories
 
 read -rp $'\nContinue? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   make_directories
 else
-  print_error "Cancelled." >&2
-  exit 1
+  echo "Cancelled."
+  exit 0
 fi
 
 echo "Done!"
