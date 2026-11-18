@@ -43,11 +43,7 @@ print_directories() {
 }
 
 make_directories() {
-  local dir
-
-  for dir in "${directories[@]}"; do
-    mkdir -pv "$dir"
-  done
+  mkdir -pv "${directories[@]}"
 }
 
 echo -e "\nThe script will create the following directories:"
