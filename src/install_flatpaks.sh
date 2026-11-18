@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Define required variables
-ROOT_DIR="${ROOT_DIR:-$(dirname "$(realpath "${BASH_SOURCE[0]}")/..")}"
+ROOT_DIR="${ROOT_DIR:-$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")}"
 MANIFEST="${MANIFEST:-${ROOT_DIR}/data/manifest.json}"
 
 # Load lib files
