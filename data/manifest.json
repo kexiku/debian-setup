@@ -36,9 +36,9 @@
 		{ "remote": "flathub", "name": "Telegram", "id": "org.telegram.desktop" }
 	],
 	"extensions": [
-		"blur-my-shell@aunetx",
-		"emoji-copy@felipeftn",
-		"smart-auto-move@khimaros.com"
+		{ "name": "Blur my Shell", "id": "blur-my-shell@aunetx" },
+		{ "name": "Emoji Copy", "id": "emoji-copy@felipeftn" },
+		{ "name": "Smart Auto Move", "id": "smart-auto-move@khimaros.com" }
 	],
 	"directories": [
 		{ "path": "home", "name": "Projects" },

@@ -16,25 +16,34 @@ check_python_app gnome-extensions-cli
 
 pipx ensurepath
 
-# Define extensions array
-mapfile -t extensions < <(jq -r '.extensions[]' "$MANIFEST")
-
 # Check if extension list is empty
-if (( ${#extensions[@]} == 0 )); then
+no_extensions=$(jq -r '.extensions | length == 0' "$MANIFEST")
+
+if $no_extensions; then
   print_error "No Gnome extensions listed in ${MANIFEST}" >&2
   exit 1
 fi
 
-print_extensions() {
-  local extension
+list_extensions() {
+  jq -r '.extensions[]
+    | [(.name // .id), .id]
+    | @tsv' "$MANIFEST"
+}
 
-  for extension in "${extensions[@]}"; do
-    printf '* %s%s%s\n' "$CYAN" "$extension" "$RESET"
-  done
+print_extensions() {
+  local name id
+
+  while IFS=$'\t' read -r name id; do
+    printf '* %s%s%s (%s)\n' "$CYAN" "$name" "$RESET" "$id"
+  done < <(list_extensions)
 }
 
 install_extensions() {
-  gext install "${extensions[@]}"
+  local name id
+
+  while IFS=$'\t' read -r name id; do
+    gext install $id
+  done < <(list_extensions)
 }
 
 echo -e "\nThe script is about to install the following Gnome extensions:"

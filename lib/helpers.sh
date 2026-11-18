@@ -41,7 +41,7 @@ check_python_app() {
   local app="$1"
 
   # Return if Python application is found
-  pipx list --short | grep -q "^$app "; && return 0
+  pipx list --short | grep -q "^$app " && return 0
 
   printf 'This script requires %s%s%s Python application to be installed.\n' "$YELLOW" "$app" "$RESET"
 
