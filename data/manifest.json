@@ -35,6 +35,16 @@
     { "remote": "flathub", "name": "Obsidian", "id": "md.obsidian.Obsidian" },
 		{ "remote": "flathub", "name": "Telegram", "id": "org.telegram.desktop" }
 	],
+	"directories": [
+		{ "path": "home", "name": "Projects" },
+		{ "path": "home", "name": "Torrents" },
+		{ "path": "cache", "name": "mpd" },
+		{ "path": "config", "name": "autostart" },
+		{ "path": "data", "name": "applications" },
+		{ "path": "data", "name": "fonts" },
+		{ "path": "data", "name": "icons" },
+		{ "path": "state", "name": "mpd" }
+	],
 	"extensions": [
 		"blur-my-shell@aunetx",
 		"emoji-copy@felipeftn",

@@ -61,7 +61,7 @@ read -rp $'\nProceed to the installation? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   install_flatpaks
 else
-  echo "Cancelled."
+  print_warning "Cancelled."
   exit 0
 fi
 
@@ -70,7 +70,7 @@ read -rp 'Log out now? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   request_logout
 else
-  echo "Skipping session restart."
+  print_warning "Skipping session restart."
 fi
 
 echo "Done!"

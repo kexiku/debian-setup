@@ -12,7 +12,7 @@ source "${ROOT_DIR}/lib/helpers.sh"
 check_root
 check_package jq
 
-# Get packages array
+# Define packages array
 mapfile -t packages < <(jq -r '.packages[]' "$MANIFEST")
 
 # Check if package list is empty
@@ -35,7 +35,7 @@ if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   sudo apt update
   sudo apt install -y "${packages[@]}"
 else
-  echo "Cancelled."
+  print_warning "Cancelled."
   exit 0
 fi
 
