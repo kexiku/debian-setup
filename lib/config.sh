@@ -1,9 +1,6 @@
 # Include guard
 [[ -n "${_CONFIG_LOADED:-}" ]] && return || _CONFIG_LOADED=1
 
-# Prevent lists from splitting to multiple columns
-COLUMNS=1
-
 # Colors
 if [[ -t 1 ]]; then
   RED=$'\033[0;91m'

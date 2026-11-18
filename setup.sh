@@ -22,7 +22,7 @@ fi
 export MANIFEST
 
 # Menu
-printf '=== %s%s%s ===\n' "$BOLD_RED" "Debian Setup" "$RESET"
+printf '=== %s%s%s ===\n\n' "$BOLD_RED" "Debian Setup" "$RESET"
 
 options=(
   "Install apt packages"
@@ -33,8 +33,8 @@ options=(
 )
 
 call_menu() {
+  COLUMNS=1 # Prevent option list from splitting to multiple columns
   PS3=$'\nChoose an option (1-3): '
-  printf "\n"
 
   select opt in "${options[@]}"; do
     case "$REPLY" in
@@ -47,7 +47,7 @@ call_menu() {
     esac
   done
 
-  echo "Would you like to do something else?"
+  printf 'Would you like to do something else?\n\n'
   call_menu
 }
 
