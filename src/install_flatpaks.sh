@@ -29,18 +29,12 @@ if ! $has_id; then
   exit 1
 fi
 
-list_flatpaks() {
-  jq -r '.flatpaks[]
-    | [(.remote // "flathub"), (.name // .id), .id]
-    | @tsv' "$MANIFEST"
-}
-
 print_flatpaks() {
-  local remote name id
-
-  while IFS=$'\t' read -r remote name id; do
-    printf '* %s%s%s (%s) from %s%s%s\n' "$BLUE" "$name" "$RESET" "$id" "$BLUE" "$remote" "$RESET"
-  done < <(list_flatpaks)
+  jq -r \
+  --arg c "$BLUE" \
+  --arg r "$RESET" '
+  .flatpaks[]
+  | "* \($c)\(.name // .id)\($r) (\(.id)) from \($c)\(.remote // "flathub")\($r)"' "$MANIFEST"
 }
 
 install_flatpaks() {
@@ -51,7 +45,9 @@ install_flatpaks() {
 
   while IFS=$'\t' read -r remote name id; do
     flatpak install --system -y "$remote" "$id"
-  done < <(list_flatpaks)
+  done < <(jq -r '.flatpaks[]
+    | [(.remote // "flathub"), (.name // .id), .id]
+    | @tsv' "$MANIFEST")
 }
 
 echo -e "\nThe script is about to install the following Flatpak apps:"

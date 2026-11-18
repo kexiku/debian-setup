@@ -12,9 +12,10 @@ source "${ROOT_DIR}/lib/helpers.sh"
 check_root
 check_package jq
 check_package pipx
-check_python_app gnome-extensions-cli
 
-pipx ensurepath
+export PATH="${HOME}/.local/bin:${PATH}"
+
+check_python_app gnome-extensions-cli
 
 # Check if extension list is empty
 no_extensions=$(jq -r '.extensions | length == 0' "$MANIFEST")
@@ -24,26 +25,19 @@ if $no_extensions; then
   exit 1
 fi
 
-list_extensions() {
-  jq -r '.extensions[]
-    | [(.name // .id), .id]
-    | @tsv' "$MANIFEST"
-}
-
 print_extensions() {
-  local name id
-
-  while IFS=$'\t' read -r name id; do
-    printf '* %s%s%s (%s)\n' "$CYAN" "$name" "$RESET" "$id"
-  done < <(list_extensions)
+  jq -r \
+  --arg c "$CYAN" \
+  --arg r "$RESET" '
+  .extensions[]
+  | "* \($c)\(.name // .id)\($r) (\(.id))"' "$MANIFEST"
 }
 
 install_extensions() {
-  local name id
+  local -a ids
+  mapfile -t ids < <(jq -r '.extensions[].id' "$MANIFEST")
 
-  while IFS=$'\t' read -r name id; do
-    gext install $id
-  done < <(list_extensions)
+  gext install "${ids[@]}"
 }
 
 echo -e "\nThe script is about to install the following Gnome extensions:"
