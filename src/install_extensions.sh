@@ -18,10 +18,18 @@ export PATH="${HOME}/.local/bin:${PATH}"
 check_python_app gnome-extensions-cli
 
 # Check if extension list is empty
-no_extensions=$(jq -r '.extensions | length == 0' "$MANIFEST")
+has_extensions=$(jq -r '.extensions | length > 0' "$MANIFEST")
 
-if $no_extensions; then
-  print_error "No Gnome extensions listed in ${MANIFEST}" >&2
+if ! $has_extensions; then
+  print_error "${MANIFEST}: The \"extensions\" array is empty." >&2
+  exit 1
+fi
+
+# Check for invalid ids
+has_ids=$(jq -r '.extensions | all(.id | type == "string" and length > 0)' "$MANIFEST")
+
+if ! $has_ids; then
+  print_error "${MANIFEST}: Invalid or missing \"id\" value in \"extensions\"." >&2
   exit 1
 fi
 

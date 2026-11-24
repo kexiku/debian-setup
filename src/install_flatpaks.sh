@@ -10,22 +10,22 @@ source "${ROOT_DIR}/lib/config.sh"
 source "${ROOT_DIR}/lib/helpers.sh"
 
 check_root
-check_package flatpak
 check_package jq
+check_package flatpak
 
 # Check if flatpak list is empty
-no_flatpaks=$(jq -r '.flatpaks | length == 0' "$MANIFEST")
+has_flatpaks=$(jq -r '.flatpaks | length > 0' "$MANIFEST")
 
-if $no_flatpaks; then
-  print_error "No Flatpak apps listed in ${MANIFEST}" >&2
+if ! $has_flatpaks; then
+  print_error "${MANIFEST}: The \"flatpaks\" array is empty." >&2
   exit 1
 fi
 
-# Check for missing ids
-has_id=$(jq -r '.flatpaks | all(has("id") and .id != null)' "$MANIFEST")
+# Check for invalid ids
+has_ids=$(jq -r '.flatpaks | all(.id | type == "string" and length > 0)' "$MANIFEST")
 
-if ! $has_id; then
-  print_error "Missing 'id' value in one or more flatpak entries in ${MANIFEST}" >&2
+if ! $has_ids; then
+  print_error "${MANIFEST}: Invalid or missing \"id\" value in \"flatpaks\"." >&2
   exit 1
 fi
 
@@ -43,10 +43,10 @@ install_flatpaks() {
   # Add Flathub repo
   flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-  while IFS=$'\t' read -r remote name id; do
+  while IFS=$'\t' read -r remote id; do
     flatpak install --system -y "$remote" "$id"
   done < <(jq -r '.flatpaks[]
-    | [(.remote // "flathub"), (.name // .id), .id]
+    | [(.remote // "flathub"), .id]
     | @tsv' "$MANIFEST")
 }
 
@@ -66,7 +66,7 @@ read -rp 'Log out now? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   request_logout
 else
-  print_warning "Skipping session restart."
+  echo "Skipping session restart."
 fi
 
 echo "Done!"
