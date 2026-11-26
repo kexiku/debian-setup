@@ -6,20 +6,12 @@ ROOT_DIR=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 export ROOT_DIR
 
 # Load lib files
-source "${ROOT_DIR}/lib/config.sh"
-source "${ROOT_DIR}/lib/helpers.sh"
+for lib in "${ROOT_DIR}"/lib/*.sh; do
+  source "$lib"
+done
 
-check_root
-
-# Define manifest file
-MANIFEST="${ROOT_DIR}/data/manifest.json"
-
-if [[ ! -f $MANIFEST ]]; then
-  print_error "Cannot locate $MANIFEST: file is missing." >&2
-  exit 1
-fi
-
-export MANIFEST
+prevent_root
+require_file "$MANIFEST"
 
 # Menu
 printf '=== %s%s%s ===\n\n' "$BOLD_RED" "Debian Setup" "$RESET"

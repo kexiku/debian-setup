@@ -1,6 +1,9 @@
 # Include guard
 [[ -n "${_CONFIG_LOADED:-}" ]] && return || _CONFIG_LOADED=1
 
+# Manifest file
+MANIFEST="${ROOT_DIR}/data/manifest.json"
+
 # Colors
 if [[ -t 1 ]]; then
   RED=$'\033[0;91m'

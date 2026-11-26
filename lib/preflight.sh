@@ -1,25 +1,25 @@
 # Include guard
-[[ -n "${_HELPERS_LOADED:-}" ]] && return || _HELPERS_LOADED=1
+[[ -n "${_PREFLIGHT_LOADED:-}" ]] && return || _PREFLIGHT_LOADED=1
 
 # Load config
 source "${ROOT_DIR}/lib/config.sh"
+source "${ROOT_DIR}/lib/print.sh"
 
-print_error() {
-  printf '%s%s%s\n' "$BOLD_RED" "$1" "$RESET"
-}
-
-print_warning() {
-  printf '%s%s%s\n' "$BOLD_YELLOW" "$1" "$RESET"
-}
-
-check_root() {
+prevent_root() {
   if [[ $EUID -eq 0 ]]; then
     print_error "The script should not be run as root." >&2
     return 1
   fi
 }
 
-check_package() {
+require_file() {
+  if [[ ! -f "$1" ]]; then
+    print_error "Cannot locate ${1}: file is missing." >&2
+    return 1
+  fi
+}
+
+require_package() {
   local pkg="$1"
 
   # Return if package is installed
@@ -37,7 +37,7 @@ check_package() {
   fi
 }
 
-check_python_app() {
+require_python_app() {
   local app="$1"
 
   # Return if Python application is found
@@ -52,19 +52,4 @@ check_python_app() {
     print_error "Missing required ${app} application." >&2
     return 1
   fi
-}
-
-request_logout() {
-  case "${XDG_CURRENT_DESKTOP,,}" in
-    *gnome*)    gnome-session-quit --logout ;;
-    *xfce*)     xfce4-session-logout --logout ;;
-    *kde*)      qdbus6 org.kde.Shutdown /Shutdown logout 2>/dev/null \
-             || qdbus org.kde.Shutdown /Shutdown logout ;;
-    *cinnamon*) cinnamon-session-quit --logout ;;
-    *mate*)     mate-session-save --logout ;;
-    *lxqt*)	    lxqt-leave --logout ;;
-    *sway*)     swaymsg exit ;;
-    *i3*)       i3-msg exit ;;
-    *)          loginctl terminate-session "${XDG_SESSION_ID:-}" ;;
-    esac
 }
