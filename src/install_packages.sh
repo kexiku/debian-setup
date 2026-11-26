@@ -4,7 +4,6 @@ set -euo pipefail
 # Find script directory
 ROOT_DIR="${ROOT_DIR:-$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")}"
 
-# Load lib files
 for lib in "${ROOT_DIR}"/lib/*.sh; do
   source "$lib"
 done
@@ -12,10 +11,9 @@ done
 prevent_root
 require_package jq
 
-# Define packages array
+# Check if package list is empty
 mapfile -t packages < <(jq -r '.packages[]' "$MANIFEST")
 
-# Check if package list is empty
 if (( ${#packages[@]} == 0 )); then
   print_error "No apt packages listed in ${MANIFEST}" >&2
   exit 1

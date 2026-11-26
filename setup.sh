@@ -5,7 +5,6 @@ set -euo pipefail
 ROOT_DIR=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 export ROOT_DIR
 
-# Load lib files
 for lib in "${ROOT_DIR}"/lib/*.sh; do
   source "$lib"
 done
@@ -13,7 +12,7 @@ done
 prevent_root
 require_file "$MANIFEST"
 
-# Menu
+# === Menu ===
 printf '=== %s%s%s ===\n\n' "$BOLD_RED" "Debian Setup" "$RESET"
 
 options=(

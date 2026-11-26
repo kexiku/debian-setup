@@ -1,7 +1,5 @@
-# Include guard
-[[ -n "${_PRINT_LOADED:-}" ]] && return || _PRINT_LOADED=1
+[[ -n "${_LIB_PRINT_LOADED:-}" ]] && return || _LIB_PRINT_LOADED=1
 
-# Load config
 source "${ROOT_DIR}/lib/config.sh"
 
 print_error() {

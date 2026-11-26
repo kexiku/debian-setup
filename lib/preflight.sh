@@ -1,7 +1,5 @@
-# Include guard
-[[ -n "${_PREFLIGHT_LOADED:-}" ]] && return || _PREFLIGHT_LOADED=1
+[[ -n "${_LIB_PREFLIGHT_LOADED:-}" ]] && return || _LIB_PREFLIGHT_LOADED=1
 
-# Load config
 source "${ROOT_DIR}/lib/config.sh"
 source "${ROOT_DIR}/lib/print.sh"
 

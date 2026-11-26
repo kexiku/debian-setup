@@ -41,13 +41,13 @@
 		{ "name": "Smart Auto Move", "id": "smart-auto-move@khimaros.com" }
 	],
 	"directories": [
-		{ "path": "home", "name": "Projects" },
-		{ "path": "home", "name": "Torrents" },
-		{ "path": "cache", "name": "mpd" },
-		{ "path": "config", "name": "autostart" },
-		{ "path": "data", "name": "applications" },
-		{ "path": "data", "name": "fonts" },
-		{ "path": "data", "name": "icons" },
-		{ "path": "state", "name": "mpd" }
+		{ "location": "home", "name": "Projects" },
+		{ "location": "home", "name": "Torrents" },
+		{ "location": "cache", "name": "mpd" },
+		{ "location": "config", "name": "autostart" },
+		{ "location": "data", "name": "applications" },
+		{ "location": "data", "name": "fonts" },
+		{ "location": "data", "name": "icons" },
+		{ "location": "state", "name": "mpd" }
 	]
 }

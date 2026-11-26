@@ -1,5 +1,4 @@
-# Include guard
-[[ -n "${_CONFIG_LOADED:-}" ]] && return || _CONFIG_LOADED=1
+[[ -n "${_LIB_CONFIG_LOADED:-}" ]] && return || _LIB_CONFIG_LOADED=1
 
 # Manifest file
 MANIFEST="${ROOT_DIR}/data/manifest.json"

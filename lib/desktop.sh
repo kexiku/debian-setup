@@ -1,5 +1,4 @@
-# Include guard
-[[ -n "${_DESKTOP_LOADED:-}" ]] && return || _DESKTOP_LOADED=1
+[[ -n "${_LIB_DESKTOP_LOADED:-}" ]] && return || _LIB_DESKTOP_LOADED=1
 
 request_logout() {
   case "${XDG_CURRENT_DESKTOP,,}" in

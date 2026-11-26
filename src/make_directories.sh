@@ -4,7 +4,6 @@ set -euo pipefail
 # Find script directory
 ROOT_DIR="${ROOT_DIR:-$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")}"
 
-# Load lib files
 for lib in "${ROOT_DIR}"/lib/*.sh; do
   source "$lib"
 done
@@ -21,14 +20,13 @@ list_directories() {
     --arg state  "${XDG_STATE_HOME:-$HOME/.local/state}" '
     {home: $home, config: $config, cache: $cache, data: $data, state: $state} as $base
     | .directories[]
-    | "\($base[.path])/\(.name)"
+    | "\($base[.location])/\(.name)"
   ' "$MANIFEST"
 }
 
-# Define directories array
+# Check if directory list is empty
 mapfile -t directories < <(list_directories)
 
-# Check if directory list is empty
 if (( ${#directories[@]} == 0)); then
   print_error "No directories listed in ${MANIFEST}" >&2
   exit 1
