@@ -31,7 +31,7 @@ install_dependencies() {
 
   (( ${#missing[@]} == 0 )) && return 0
 
-  echo -e "\nThis script requires the following apt packages to be installed:"
+  print_header "This script requires the following apt package(s) to be installed:"
 
   for pkg in "${missing[@]}"; do
     printf '* %s%s%s\n' "$GREEN" "$pkg" "$RESET"

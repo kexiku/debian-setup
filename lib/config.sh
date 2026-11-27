@@ -6,7 +6,6 @@ MANIFEST="${ROOT_DIR}/data/manifest.json"
 # Package dependencies
 DEPENDENCIES=(
   "flatpak"
-  "qwerty"
   "jq"
   "pipx"
 )
@@ -21,6 +20,7 @@ if [[ -t 1 ]]; then
   CYAN=$'\033[0;96m'
   WHITE=$'\033[0;97m'
 
+  BOLD=$'\033[1m'
   BOLD_RED=$'\033[1;91m'
   BOLD_GREEN=$'\033[1;92m'
   BOLD_YELLOW=$'\033[1;93m'

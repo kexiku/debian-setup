@@ -22,14 +22,14 @@ install_packages() {
   sudo apt install -y "${packages[@]}"
 }
 
-echo -e "\nThe script is about to install the following apt packages on your system:"
+print_header "The script is about to install the following apt package(s) on your system:"
 print_packages
 
 read -rp $'\nProceed to the installation? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   install_packages
 else
-  print_warning "Cancelled."
+  echo "Cancelled."
   exit 0
 fi
 

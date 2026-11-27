@@ -34,14 +34,14 @@ make_directories() {
   mkdir -pv "${directories[@]}"
 }
 
-echo -e "\nThe script will create the following directories:"
+print_header "The script will create the following directories:"
 print_directories
 
 read -rp $'\nContinue? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   make_directories
 else
-  print_warning "Cancelled."
+  echo "Cancelled."
   exit 0
 fi
 

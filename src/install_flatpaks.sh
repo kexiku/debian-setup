@@ -28,18 +28,18 @@ install_flatpaks() {
     | @tsv' "$MANIFEST")
 }
 
-echo -e "\nThe script is about to install the following Flatpak apps:"
+print_header "The script is about to install the following Flatpak application(s):"
 print_flatpaks
 
 read -rp $'\nProceed to the installation? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   install_flatpaks
 else
-  print_warning "Cancelled."
+  echo "Cancelled."
   exit 0
 fi
 
-echo "A session restart is required for installed apps to be appeared on your desktop."
+echo "A session restart is required for installed app(s) to be appeared on your desktop."
 read -rp 'Log out now? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   request_logout

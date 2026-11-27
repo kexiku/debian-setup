@@ -7,11 +7,6 @@ done
 
 validate_array extensions
 
-# Update $PATH to include pipx default binary location
-export PATH="${PIPX_BIN_DIR:-${HOME}/.local/bin}:$PATH"
-
-pipx install --system-site-packages gnome-extensions-cli
-
 print_extensions() {
   jq -r \
   --arg c "$CYAN" \
@@ -24,17 +19,22 @@ install_extensions() {
   local -a ids
   mapfile -t ids < <(jq -r '.extensions[].id' "$MANIFEST")
 
+  # Update $PATH to include pipx default binary location
+  export PATH="${PIPX_BIN_DIR:-${HOME}/.local/bin}:$PATH"
+
+  pipx install --system-site-packages gnome-extensions-cli
+
   gext install "${ids[@]}"
 }
 
-echo -e "\nThe script is about to install the following Gnome extensions:"
+print_header "The script is about to install the following Gnome extension(s):"
 print_extensions
 
 read -rp $'\nProceed to the installation? [Y/n] ' ans
 if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
   install_extensions
 else
-  print_warning "Cancelled."
+  echo "Cancelled."
   exit 0
 fi
 

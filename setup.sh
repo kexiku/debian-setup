@@ -26,7 +26,7 @@ options=(
 
 call_menu() {
   COLUMNS=1 # Prevent option list from splitting to multiple columns
-  PS3=$'\nChoose an option (1-3): '
+  PS3=$'\nChoose an option (1-5): '
 
   select opt in "${options[@]}"; do
     case "$REPLY" in
@@ -35,11 +35,11 @@ call_menu() {
       3) bash "${ROOT_DIR}/src/install_extensions.sh"; break ;;
       4) bash "${ROOT_DIR}/src/make_directories.sh"; break ;;
       5|q) exit 0 ;;
-      *) echo "Invalid option, enter the correct value (1-3)." ;;
+      *) echo "Invalid option, enter the correct value." ;;
     esac
   done
 
-  printf 'Would you like to do something else?\n\n'
+  print_header "Would you like to do something else?"
   call_menu
 }
 
