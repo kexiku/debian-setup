@@ -11,6 +11,7 @@ done
 
 prevent_root
 require_file "$MANIFEST"
+install_dependencies
 
 # === Menu ===
 printf '=== %s%s%s ===\n\n' "$BOLD_RED" "Debian Setup" "$RESET"

@@ -3,6 +3,14 @@
 # Manifest file
 MANIFEST="${ROOT_DIR}/data/manifest.json"
 
+# Package dependencies
+DEPENDENCIES=(
+  "flatpak"
+  "qwerty"
+  "jq"
+  "pipx"
+)
+
 # Colors
 if [[ -t 1 ]]; then
   RED=$'\033[0;91m'

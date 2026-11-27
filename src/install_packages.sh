@@ -1,15 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-# Find script directory
-ROOT_DIR="${ROOT_DIR:-$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")}"
-
 for lib in "${ROOT_DIR}"/lib/*.sh; do
   source "$lib"
 done
 
-prevent_root
-require_package jq
 validate_array packages
 
 mapfile -t packages < <(jq -r '.packages[].name' "$MANIFEST")

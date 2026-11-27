@@ -17,37 +17,32 @@ require_file() {
   fi
 }
 
-require_package() {
-  local pkg="$1"
-
-  # Return if package is installed
-  command -v "$pkg" >/dev/null 2>&1 && return 0
-
-  printf 'This script requires %s%s%s package to be installed.\n' "$GREEN" "$pkg" "$RESET"
-
-  read -rp 'Would you like to install it now? [Y/n] ' ans
-  if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
-    sudo apt update
-    sudo apt install -y "$pkg"
-  else
-    print_error "Missing required ${pkg} package." >&2
-    return 1
-  fi
+is_pkg_installed() {
+  command -v "$1" >/dev/null 2>&1
 }
 
-require_python_app() {
-  local app="$1"
+install_dependencies() {
+  local -a missing=()
+  local pkg ans
 
-  # Return if Python application is found
-  pipx list --short | grep -q "^$app " && return 0
+  for pkg in "${DEPENDENCIES[@]}"; do
+    is_pkg_installed "$pkg" || missing+=("$pkg")
+  done
 
-  printf 'This script requires %s%s%s Python application to be installed.\n' "$YELLOW" "$app" "$RESET"
+  (( ${#missing[@]} == 0 )) && return 0
 
-  read -rp 'Would you like to install it now? [Y/n] ' ans
+  echo -e "\nThis script requires the following apt packages to be installed:"
+
+  for pkg in "${missing[@]}"; do
+    printf '* %s%s%s\n' "$GREEN" "$pkg" "$RESET"
+  done
+
+  read -rp $'\nProceed to the installation? [Y/n] ' ans
   if [[ "${ans:-y}" =~ ^[Yy]$ ]]; then
-    pipx install --system-site-packages "$app"
+    sudo apt update
+    sudo apt install -y "${missing[@]}"
   else
-    print_error "Missing required ${app} application." >&2
+    print_error "Missing required dependencies." >&2
     return 1
   fi
 }
