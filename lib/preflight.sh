@@ -18,7 +18,10 @@ require_file() {
 }
 
 is_pkg_installed() {
-  command -v "$1" >/dev/null 2>&1
+  local status
+  status=$(dpkg-query -W -f='${db:Status-Abbrev}' "$1" 2>/dev/null)
+
+  [[ $status == ii* ]]
 }
 
 install_dependencies() {

@@ -11,6 +11,7 @@
 		{ "name": "gparted" },
 		{ "name": "gpg" },
 		{ "name": "imagemagick" },
+		{ "name": "jq" },
 		{ "name": "mpd" },
 		{ "name": "mpv" },
 		{ "name": "mtools" },
