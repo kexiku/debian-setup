@@ -5,23 +5,24 @@ source "${ROOT_DIR}/lib/print.sh"
 
 validate_array() {
   local arr="$1"
-  local is_missing is_empty has_ids is_bad_id msg
+  local error_msg
 
-  is_missing=$(jq -r --arg arr "$arr" 'has($arr) | not' "$MANIFEST")
-  is_empty=$(jq -r --arg arr "$arr" '.[$arr] | length == 0' "$MANIFEST")
-  has_ids=$(jq -r --arg arr "$arr" '.[$arr] | any(has("id"))' "$MANIFEST")
-  is_bad_id=$(jq -r --arg arr "$arr" '.[$arr] | all(.id | type == "string" and length > 0) | not' "$MANIFEST")
+  error_msg=$(jq -r --arg arr "$arr" '
+    if has($arr) | not then
+      "Missing the \"\($arr)\" array."
+    elif .[$arr] | type != "array" then
+      "\"\($arr)\" is not a valid array."
+    elif .[$arr] | length == 0 then
+      "The \"\($arr)\" array is empty."
+    elif .[$arr] | any(has("id")) and (all(.id | type == "string" and length > 0) | not) then
+      "Invalid id value in one or more \"\($arr)\" entries."
+    else
+      empty
+    end
+    ' "$MANIFEST")
 
-  if $is_missing; then
-    msg="Missing the \"${arr}\" array."
-  elif $is_empty; then
-    msg="The \"${arr}\" array is empty."
-  elif $has_ids && $is_bad_id; then
-    msg="Invalid id value in one or more \"${arr}\" entries."
-  else
-    return 0
+  if [[ -n $error_msg ]]; then
+    print_error "${MANIFEST}: ${error_msg}" >&2
+    return 1
   fi
-
-  print_error "${MANIFEST}: ${msg}" >&2
-  return 1
 }
