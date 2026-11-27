@@ -13,20 +13,7 @@ require_package jq
 require_package flatpak
 
 # Check if flatpak list is empty
-has_flatpaks=$(jq -r '.flatpaks | length > 0' "$MANIFEST")
-
-if ! $has_flatpaks; then
-  print_error "${MANIFEST}: The \"flatpaks\" array is empty." >&2
-  exit 1
-fi
-
-# Check for invalid ids
-has_ids=$(jq -r '.flatpaks | all(.id | type == "string" and length > 0)' "$MANIFEST")
-
-if ! $has_ids; then
-  print_error "${MANIFEST}: Invalid or missing \"id\" value in \"flatpaks\"." >&2
-  exit 1
-fi
+validate_array flatpaks
 
 print_flatpaks() {
   jq -r \

@@ -10,14 +10,9 @@ done
 
 prevent_root
 require_package jq
+validate_array packages
 
-# Check if package list is empty
 mapfile -t packages < <(jq -r '.packages[]' "$MANIFEST")
-
-if (( ${#packages[@]} == 0 )); then
-  print_error "No apt packages listed in ${MANIFEST}" >&2
-  exit 1
-fi
 
 print_packages() {
   local package

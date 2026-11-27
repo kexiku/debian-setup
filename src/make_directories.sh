@@ -10,6 +10,7 @@ done
 
 prevent_root
 require_package jq
+validate_array directories
 
 list_directories() {
   jq -r \
@@ -24,13 +25,7 @@ list_directories() {
   ' "$MANIFEST"
 }
 
-# Check if directory list is empty
 mapfile -t directories < <(list_directories)
-
-if (( ${#directories[@]} == 0)); then
-  print_error "No directories listed in ${MANIFEST}" >&2
-  exit 1
-fi
 
 print_directories() {
   local dir
