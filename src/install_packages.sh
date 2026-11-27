@@ -12,7 +12,7 @@ prevent_root
 require_package jq
 validate_array packages
 
-mapfile -t packages < <(jq -r '.packages[]' "$MANIFEST")
+mapfile -t packages < <(jq -r '.packages[].name' "$MANIFEST")
 
 print_packages() {
   local package
